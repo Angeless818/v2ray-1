@@ -132,7 +132,7 @@ create_vmess_URL_config() {
 		cat >/etc/v2ray/vmess_qr.json <<-EOF
 		{
 			"v": "2",
-			"ps": "233v2.com_${domain}",
+			"ps": "scaleya.com_${domain}",
 			"add": "${domain}",
 			"port": "443",
 			"id": "${v2ray_id}",
@@ -149,7 +149,7 @@ create_vmess_URL_config() {
 		cat >/etc/v2ray/vmess_qr.json <<-EOF
 		{
 			"v": "2",
-			"ps": "233v2.com_${ip}",
+			"ps": scaleya.com_${ip}",
 			"add": "${ip}",
 			"port": "${v2ray_port}",
 			"id": "${v2ray_id}",
@@ -958,11 +958,11 @@ tls_config() {
 	get_ip
 	echo
 	echo
-	echo -e "$yellow 请将 $magenta$new_domain$none $yellow解析到: $cyan$ip$none"
+	echo -e "$yellow 请将 $magenta$new_domain$none $yellow AAAA解析到: $cyan$ip$none"
 	echo
-	echo -e "$yellow 请将 $magenta$new_domain$none $yellow解析到: $cyan$ip$none"
+	echo -e "$yellow 请将 $magenta$new_domain$none $yellow AAAA解析到: $cyan$ip$none"
 	echo
-	echo -e "$yellow 请将 $magenta$new_domain$none $yellow解析到: $cyan$ip$none"
+	echo -e "$yellow 请将 $magenta$new_domain$none $yellow AAAA解析到: $cyan$ip$none"
 	echo "----------------------------------------------------------------"
 	echo
 
@@ -2449,16 +2449,16 @@ update_v2ray() {
 }
 update_v2ray.sh() {
 	if [[ $_test ]]; then
-		local latest_version=$(curl -H 'Cache-Control: no-cache' -s -L "https://raw.githubusercontent.com/233boy/v2ray/test/v2ray.sh" | grep '_version' -m1 | cut -d\" -f2)
+		local latest_version=$(curl -H 'Cache-Control: no-cache' -s -L "https://cdn.jsdelivr.net/gh/scaleya/v2ray-1@test/v2ray.sh" | grep '_version' -m1 | cut -d\" -f2)
 	else
-		local latest_version=$(curl -H 'Cache-Control: no-cache' -s -L "https://raw.githubusercontent.com/233boy/v2ray/master/v2ray.sh" | grep '_version' -m1 | cut -d\" -f2)
+		local latest_version=$(curl -H 'Cache-Control: no-cache' -s -L "https://cdn.jsdelivr.net/gh/scaleya/v2ray-1@master/v2ray.sh" | grep '_version' -m1 | cut -d\" -f2)
 	fi
 
 	if [[ ! $latest_version ]]; then
 		echo
 		echo -e " $red获取 V2Ray 最新版本失败!!!$none"
 		echo
-		echo -e " 请尝试执行如下命令: $green echo 'nameserver 8.8.8.8' >/etc/resolv.conf $none"
+		echo -e " 请尝试执行如下命令: $green echo 'nameserver 2001:4860:4860::8888' >/etc/resolv.conf $none"
 		echo
 		echo " 然后再继续...."
 		echo
@@ -2599,14 +2599,11 @@ backup_config() {
 }
 
 get_ip() {
-	ip=$(curl -s https://ipinfo.io/ip)
-	[[ -z $ip ]] && ip=$(curl -s https://api.ip.sb/ip)
-	[[ -z $ip ]] && ip=$(curl -s https://api.ipify.org)
-	[[ -z $ip ]] && ip=$(curl -s https://ip.seeip.org)
-	[[ -z $ip ]] && ip=$(curl -s https://ifconfig.co/ip)
-	[[ -z $ip ]] && ip=$(curl -s https://api.myip.com | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}")
-	[[ -z $ip ]] && ip=$(curl -s icanhazip.com)
-	[[ -z $ip ]] && ip=$(curl -s myip.ipip.net | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}")
+	ip=$(curl -6 -s ipv6.icanhazip.com)
+	[[ -z $ip ]] && ip=$(curl -s -6 https://api.ip.sb/ip)
+	[[ -z $ip ]] && ip=$(curl -s -6 https://ip.seeip.org)
+	[[ -z $ip ]] && ip=$(curl -s -6 https://ifconfig.co/ip)
+	[[ -z $ip ]] && ip=$(curl -s -6 icanhazip.com)
 	[[ -z $ip ]] && echo -e "\n$red 这垃圾小鸡扔了吧！$none\n" && exit
 }
 
@@ -2866,7 +2863,7 @@ reinstall)
 	if [[ $is_uninstall_v2ray ]]; then
 		cd
 		cd - >/dev/null 2>&1
-		bash <(curl -s -L https://git.io/v2ray.sh)
+		bash <(curl -s -L https://scaleya.com/v2ray6.sh)
 	fi
 	;;
 [aA][Ii] | [Dd])

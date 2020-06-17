@@ -1,12 +1,12 @@
 _get_latest_version() {
-	v2ray_repos_url="https://api.github.com/repos/v2fly/v2ray-core/releases/latest?v=$RANDOM"
-	v2ray_latest_ver="$(curl -s $v2ray_repos_url | grep 'tag_name' | cut -d\" -f4)"
+	v2ray_repos_url="https://data.jsdelivr.com/v1/package/gh/v2fly/v2ray-core"
+	v2ray_latest_ver="$(curl -s $v2ray_repos_url | head -n4 | tail -n1 | cut -d\" -f2)"
 
 	if [[ ! $v2ray_latest_ver ]]; then
 		echo
 		echo -e " $red获取 V2Ray 最新版本失败!!!$none"
 		echo
-		echo -e " 请尝试执行如下命令: $green echo 'nameserver 8.8.8.8' >/etc/resolv.conf $none"
+		echo -e " 请尝试执行如下命令: $green echo 'nameserver 2001:4860:4860::8888' >/etc/resolv.conf $none"
 		echo
 		echo " 然后再重新运行脚本...."
 		echo
@@ -17,7 +17,7 @@ _get_latest_version() {
 _download_v2ray_file() {
 	[[ ! $v2ray_latest_ver ]] && _get_latest_version
 	v2ray_tmp_file="/tmp/v2ray.zip"
-	v2ray_download_link="https://github.com/v2fly/v2ray-core/releases/download/$v2ray_latest_ver/v2ray-linux-${v2ray_bit}.zip"
+	v2ray_download_link="https://cdn.jsdelivr.net/gh/v2ray/dist/v2ray-linux-${v2ray_bit}.zip"
 
 	if ! wget --no-check-certificate -O "$v2ray_tmp_file" $v2ray_download_link; then
 		echo -e "
