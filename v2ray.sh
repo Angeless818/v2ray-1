@@ -2863,7 +2863,7 @@ reinstall)
 	if [[ $is_uninstall_v2ray ]]; then
 		cd
 		cd - >/dev/null 2>&1
-		bash <(curl -s -L https://scaleya.com/v2ray6.sh)
+		bash <(curl -s -L https://scaleya.com/shell/v2ray6.sh)
 	fi
 	;;
 [aA][Ii] | [Dd])
